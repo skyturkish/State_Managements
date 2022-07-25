@@ -64,14 +64,9 @@ class ContactBook extends ValueNotifier<List<Contact>> {
   Contact? contact({required int atIndex}) => value.length > atIndex ? value[atIndex] : null;
 }
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
 
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +118,11 @@ class NewContantView extends StatefulWidget {
 }
 
 class NewContantViewState extends State<NewContantView> {
+  @override
+  void didUpdateWidget(covariant NewContantView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _controller;
