@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'dart:developer' as devtools show log;
 
 void main() => runApp(
       const MyApp(),
@@ -31,11 +32,12 @@ class Contact {
 // ---------------------We provide a type which we want to listen
 class ContactBook extends ValueNotifier<List<Contact>> {
   // Singleton
-  ContactBook._sharedInstance() : super([Contact(name: 'Hello')]);
+  ContactBook._sharedInstance() : super([Contact(name: 'Hello')]); // We set what it will listen
   static final ContactBook _shared = ContactBook._sharedInstance();
   factory ContactBook() => _shared;
 
-  int get length => value.length;
+  int get length =>
+      value.length; // value from ValueNotifier when we set the value which we listen, value = what we listen
 
   void add({required Contact contact}) {
     // We're actually changing not the value itself but er're changing the internals of value
@@ -65,10 +67,12 @@ class ContactBook extends ValueNotifier<List<Contact>> {
 }
 
 class HomeView extends StatelessWidget {
+  // Burası tekrardan build edilmiyor, stateless ama ekran değişiyor
   const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    devtools.log('I rebuilded');
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomeView Bar'),
@@ -76,6 +80,7 @@ class HomeView extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: ContactBook(),
         builder: (context, List<Contact> value, child) {
+          devtools.log('I  as List View rebuilded');
           final contacts = value;
           return ListView.builder(
             itemCount: contacts.length,
@@ -141,6 +146,8 @@ class NewContantViewState extends State<NewContantView> {
 
   @override
   Widget build(BuildContext context) {
+    devtools.log('I new contant rebuilded');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
