@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider( // we provide from top, from here
       create: (_) => BreadCrumbProvider(),
       child: MaterialApp(
         title: 'Material App',
@@ -106,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         body: Column(
           children: [
-            Consumer<BreadCrumbProvider>(
+            Consumer<BreadCrumbProvider>( // we rebuild with consumer
               builder: (context, value, child) {
                 // child will not rebuild
                 return BreadCrumbsWidget(breadCrumbs: value.items);
