@@ -46,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () {
               context.read<ThemeNotifier>().changeTheme();
             },
-            child: const Text('Change Theme')),
+            child: const Text('Change aTheme')),
       ),
     );
   }
