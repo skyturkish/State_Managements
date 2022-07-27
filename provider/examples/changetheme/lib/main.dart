@@ -56,13 +56,11 @@ enum AppThemes { LIGHT, DARK }
 
 class ThemeNotifier extends ChangeNotifier {
   ThemeData _currentTheme = ThemeData.light();
-
   AppThemes _currentThemeEnum = AppThemes.LIGHT;
 
   /// Applicaton theme enum.
   /// Deafult value is [AppThemes.LIGHT]
   AppThemes get currenThemeEnum => _currentThemeEnum;
-
   ThemeData get currentTheme => _currentTheme;
 
   /// Change your app theme with [currenThemeEnum] value.
