@@ -93,8 +93,8 @@ class LoadPersonsAction implements LoadAction {
 
 enum PersonUrl {
   person1(
-      'http://<ipv4 if you works on real device>:5500/learn/testingbloc_course/api/person1.json'), // TODO ip'ini commit atmadan önce sil
-  person2('http://<ipv4 if you works on real device>:5500/learn/testingbloc_course/api/person2.json');
+      'http://<type your cmd "ipconfig">:5500/learn/testingbloc_course/api/person1.json'), // TODO ip'ini commit atmadan önce sil
+  person2('http://<type your cmd "ipconfig">:5500/learn/testingbloc_course/api/person2.json');
 
   final String personUrl;
   const PersonUrl(this.personUrl);
