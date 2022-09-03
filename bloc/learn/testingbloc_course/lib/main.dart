@@ -3,8 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testingbloc_course/bloc/bloc_actions.dart';
+import 'package:testingbloc_course/bloc/person.dart';
 
 import 'dart:developer' as devtools show log;
+
+import 'package:testingbloc_course/bloc/persons_bloc.dart';
 
 extension Log on Object {
   void log() => devtools.log(toString());
@@ -40,86 +44,6 @@ Future<Iterable<Person>> getPersons(String url) => HttpClient()
     .then((str) => json.decode(str) as List<dynamic>)
     .then((list) => list.map((e) => Person.fromJson(e)));
 
-class FetchResult {
-  final Iterable<Person> persons;
-  final bool isRetrievedFromCache;
-  FetchResult({
-    required this.persons,
-    required this.isRetrievedFromCache,
-  });
-
-  @override
-  String toString() {
-    return 'FetchResult (isRetrievedFromCache = $isRetrievedFromCache, persons = $persons)';
-  }
-}
-
-class PersonsBloc extends Bloc<LoadAction, FetchResult?> {
-  final Map<PersonUrl, Iterable<Person>> _cache = {};
-  PersonsBloc() : super(null) {
-    on<LoadPersonsAction>(
-      (event, emit) async {
-        final url = event.url;
-        if (_cache.containsKey(url)) {
-          final cachedPersons = _cache[url]!;
-          final result = FetchResult(
-            persons: cachedPersons,
-            isRetrievedFromCache: true,
-          );
-          emit(result);
-        } else {
-          final persons = await getPersons(url.personUrl);
-          _cache[url] = persons;
-          final result = FetchResult(
-            persons: persons,
-            isRetrievedFromCache: false,
-          );
-        }
-      },
-    );
-  }
-}
-
-@immutable
-abstract class LoadAction {
-  const LoadAction();
-}
-
-@immutable
-class LoadPersonsAction implements LoadAction {
-  final PersonUrl url;
-  const LoadPersonsAction({required this.url}) : super();
-}
-
-enum PersonUrl {
-  person1('http://192.168.0.29:5500/learn/testingbloc_course/api/person1.json'), // TODO ip'ini commit atmadan önce sil
-  person2('http://192.168.0.29:5500/learn/testingbloc_course/api/person2.json');
-
-  final String personUrl;
-  const PersonUrl(this.personUrl);
-
-  String getPersonUrl() {
-    return personUrl;
-  }
-}
-
-@immutable
-class Person {
-  final String name;
-  final int age;
-  const Person({
-    required this.name,
-    required this.age,
-  });
-
-  Person.fromJson(Map<String, dynamic> json)
-      : name = json['name'] as String,
-        age = json['age'] as int;
-
-  @override
-  String toString() => 'Person (name = $name, age = $age';
-}
-
 extension Subscript<T> on Iterable<T> {
   T? operator [](int index) => length > index ? elementAt(index) : null;
 }
@@ -144,21 +68,13 @@ class _HomeViewState extends State<HomeView> {
             children: [
               TextButton(
                 onPressed: () {
-                  context.read<PersonsBloc>().add(
-                        const LoadPersonsAction(
-                          url: PersonUrl.person1,
-                        ),
-                      );
+                  context.read<PersonsBloc>().add(const LoadPersonsAction(url: persons1Url, loader: getPersons));
                 },
                 child: const Text('Load json #1'),
               ),
               TextButton(
                 onPressed: () {
-                  context.read<PersonsBloc>().add(
-                        const LoadPersonsAction(
-                          url: PersonUrl.person2,
-                        ),
-                      );
+                  context.read<PersonsBloc>().add(const LoadPersonsAction(url: persons2Url, loader: getPersons));
                 },
                 child: const Text('Load json #2'),
               ),
