@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'dart:developer' as devtools show log;
@@ -20,6 +21,24 @@ void main() {
   runApp(
     const MyApp(),
   );
+}
+
+class CountDown extends ValueNotifier<int> {
+  late StreamSubscription streamSubscription;
+
+  CountDown({required int from}) : super(from) {
+    streamSubscription = Stream.periodic(
+      const Duration(seconds: 1),
+      (v) => from - v,
+    ).takeWhile((value) => value >= 0).listen((value) {
+      this.value = value;
+    });
+  }
+  @override
+  void dispose() {
+    streamSubscription.cancel();
+    super.dispose();
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -45,21 +64,14 @@ class HomeView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final future = useMemoized(
-      () => NetworkAssetBundle(Uri.parse(url))
-          .load(url)
-          .then((data) => data.buffer.asUint8List())
-          .then((data) => Image.memory(data)),
-    );
-
-    final snapshot = useFuture(future);
+    'yenilendi'.log();
+    final countDown = useMemoized(() => CountDown(from: 20));
+    final notifier = useListenable(countDown);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home VView'),
       ),
-      body: Column(
-        children: [snapshot.data].compactMap().toList(),
-      ),
+      body: Center(child: Text(notifier.value.toString())),
     );
   }
 }
