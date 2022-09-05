@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'dart:developer' as devtools show log;
+
+// for more information about CompactMap => https://www.hackingwithswift.com/articles/205/whats-the-difference-between-map-flatmap-and-compactmap
+extension CompactMap<T> on Iterable<T?> {
+  Iterable<T> compactMap<E>([
+    E? Function(T?)? transform,
+  ]) =>
+      map(transform ?? (e) => e).where((e) => e != null).cast();
+}
 
 extension Log on Object {
   void log() => devtools.log(toString());
@@ -29,36 +38,27 @@ Stream<String> getTime() => Stream.periodic(const Duration(seconds: 1), (_) {
       return DateTime.now().toIso8601String();
     });
 
+const String url = 'https://i.pinimg.com/originals/aa/02/78/aa02780bbc7e6c5e2d52d9b0e919fbf6.jpg';
+
 class HomeView extends HookWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    'burası tetiklendi'.log();
-    final controller = useTextEditingController();
-    final text = useState('');
-
-    useEffect(
-      () {
-        controller.addListener(() {
-          text.value = controller.text;
-        });
-        return null;
-      },
-      [controller],
+    final future = useMemoized(
+      () => NetworkAssetBundle(Uri.parse(url))
+          .load(url)
+          .then((data) => data.buffer.asUint8List())
+          .then((data) => Image.memory(data)),
     );
 
+    final snapshot = useFuture(future);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home View'),
+        title: const Text('Home VView'),
       ),
       body: Column(
-        children: [
-          TextField(
-            controller: controller,
-          ),
-          Text('You typed ${text.value}'),
-        ],
+        children: [snapshot.data].compactMap().toList(),
       ),
     );
   }
