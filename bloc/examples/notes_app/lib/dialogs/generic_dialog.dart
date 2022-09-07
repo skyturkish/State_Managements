@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+// eğer birden fazla buton olacaksa burayı List<Map<String,T?>> şeklinde yapabiliriz
+// TODO english
 typedef DialogOptionBuilder<T> = Map<String, T?> Function();
 
+// bu fonksiyon sadece 2 yerde çağrılıyor
+// bir tanesi main.dart'ın içinden error verirse orada
+// diğeri ise text yerleri boşsa butonun içinden
 Future<T?> showGenericDialog<T>({
   required BuildContext context,
   required String title,
@@ -19,6 +24,7 @@ Future<T?> showGenericDialog<T>({
           final value = options[optionTitle];
           return TextButton(
             onPressed: () {
+              // butona basıcna map'in değeri dönüyor, bu boolean da olabilir başka bir şeyde olabilir.
               if (value != null) {
                 Navigator.of(context).pop(value);
               } else {

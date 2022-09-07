@@ -5,7 +5,7 @@ import 'package:notes_app/apis/notes_api.dart';
 import 'package:notes_app/bloc/actions.dart';
 import 'package:notes_app/bloc/app_bloc.dart';
 import 'package:notes_app/bloc/app_state.dart';
-import 'package:notes_app/core/strings.dart';
+import 'package:notes_app/core/constants/strings.dart';
 import 'package:notes_app/dialogs/generic_dialog.dart';
 import 'package:notes_app/dialogs/loading_screen.dart';
 import 'package:notes_app/models.dart';
@@ -51,6 +51,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         body: BlocConsumer<AppBloc, AppState>(
           listener: (context, appState) {
+            // listener help us to show loading screen
             if (appState.isLoading) {
               LoadingScreen.instance().show(
                 context: context,
@@ -59,7 +60,9 @@ class _HomeViewState extends State<HomeView> {
             } else {
               LoadingScreen.instance().hide();
             }
+
             final loginError = appState.loginError;
+
             if (loginError != null) {
               showGenericDialog<bool>(
                 context: context,
