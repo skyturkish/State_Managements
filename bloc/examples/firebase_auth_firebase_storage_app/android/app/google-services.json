@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "435429712718",
+    "project_id": "bloc-photo-library-sky",
+    "storage_bucket": "bloc-photo-library-sky.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435429712718:android:909a484f66e023614cf41f",
+        "android_client_info": {
+          "package_name": "sky.sky.firebase_auth_firebase_storage_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435429712718-87plcha1to2t2dgu709jhchq9357k9v7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPysFjcF2cYZrkcI-2qjPoVdAWBcJxG5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435429712718-87plcha1to2t2dgu709jhchq9357k9v7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
