@@ -1,16 +1,4 @@
-# image_app
 
-A new Flutter project.
 
-## Getting Started
+<img src="https://user-images.githubusercontent.com/73424678/190086748-dc170b1d-6c7b-47cc-baae-866128686791.gif"  height="450">
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
